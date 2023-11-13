@@ -113,7 +113,7 @@ def test_read_file_raises_error_if_file_not_found():
 # Test with temp_dir fixture
 def test_read_file_with_temp_dir(temp_dir):
     """Test that the read_file function correctly reads the contents of a file"""
-    path = "hello_world.txt"
+    path = os.path.join(temp_dir, "hello_world.txt")
     with open(path, "w") as f: # Create the file
         f.write("Hello, World!") # Write to the file
     hello_world = read_file(path)
@@ -137,7 +137,7 @@ def test_save_file():
 # Test with temp_dir fixture
 def test_save_file_with_temp_dir(temp_dir):
     """Test that the save_file function correctly saves the contents to a file"""
-    path = "hello_world.txt"
+    path = os.path.join(temp_dir, "hello_world.txt")
     hello_world = "Hello, World!"
     save_file(path, hello_world)
     with open(path, "r") as f:
