@@ -1,15 +1,10 @@
 #!/usr/bin/env python3
 
-import sys
-import mypkg.config as config
-
-# Add the root directory to the Python module search path
-# sys.path.insert(0, config.ROOT_DIR)
-
 import os
 import argparse
 from icecream import ic
 
+import mypkg.config as config
 from mypkg.utils import read_file
 
 
