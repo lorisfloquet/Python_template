@@ -6,25 +6,35 @@ from time import perf_counter
 from termcolor import colored
 
 
+def is_verbose_set() -> bool:
+    """
+    Returns True if the VERBOSE environment variable is set, False otherwise.
+    """
+    return os.getenv('VERBOSE', '0').lower() in ['1', 'true', 'yes']
+
+
 def time_it(func):
     """
-    Decorator to time a function. Optionally print the elapsed time in color if VERBOSE environment variable is set.
+    Decorator to time a function.
+    Optionally print the elapsed time in color if the VERBOSE environment variable is set.
     """
     @wraps(func)
     def wrapper(*args, **kwargs):
-        # Check if the VERBOSE environment variable is set and compare its value
-        if os.getenv('VERBOSE', '0').lower() in ['1', 'true', 'yes']:
-            start_time = perf_counter()
-            result = func(*args, **kwargs)
-            end_time = perf_counter()
-            elapsed_time = end_time - start_time
-            
-            # Print the elapsed time in cyan
+        start_time = perf_counter()
+        result = func(*args, **kwargs)
+        end_time = perf_counter()
+        elapsed_time = end_time - start_time
+
+        # Extracting the 'verbose' argument if present, default to None if not
+        verbose_arg = kwargs.get('verbose', None)
+
+        # Determine whether to print based on the 'verbose' argument or the environment variable
+        should_print = verbose_arg if isinstance(verbose_arg, bool) else is_verbose_set()
+        
+        if should_print:
             print(colored(f"Function {func.__name__} took {elapsed_time:.4f} seconds to execute.", "cyan"))
 
-            return result
-
-        return func(*args, **kwargs)
+        return result
 
     return wrapper
 

@@ -1,5 +1,5 @@
 [run]
 omit =
-    src/main.py
-    src/config.py
+    src/mypkg/main.py
+    src/mypkg/config.py
     */__init__.py
