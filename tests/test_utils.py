@@ -6,18 +6,37 @@ import sys
 from io import StringIO
 from time import sleep, perf_counter
 from typing import Optional
+from unittest.mock import patch
 
 from mypkg.utils import (
+    set_venv_verbose,
     is_verbose_set,
     time_it,
     read_file,
     save_file,
 )
 
+
+########################################################################################################################
+# Test the set_venv_verbose function
+########################################################################################################################
+
+def test_set_venv_verbose_enabled():
+    with patch('sys.argv', ['script_name', '-v']):
+        with patch.dict(os.environ, {}, clear=True):
+            set_venv_verbose()
+            assert os.environ['VERBOSE'] == '1'
+
+def test_set_venv_verbose_disabled():
+    with patch('sys.argv', ['script_name']):
+        with patch.dict(os.environ, {}, clear=True):
+            set_venv_verbose()
+            assert os.environ['VERBOSE'] == '0'
+
+
 ########################################################################################################################
 # Test the is_verbose_set function
 ########################################################################################################################
-
 
 def test_is_verbose_set_true(monkeypatch):
     monkeypatch.setenv("VERBOSE", "1")

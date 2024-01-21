@@ -4,6 +4,23 @@ import os
 from functools import wraps
 from time import perf_counter
 from termcolor import colored
+import argparse
+
+
+def set_venv_verbose() -> None:
+    """
+    Set the VERBOSE environment variable based on the command-line argument.
+    """
+    # Parse the command-line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose output')
+    args = parser.parse_args()
+
+    # Set the VERBOSE environment variable based on the command-line argument
+    if args.verbose:
+        os.environ['VERBOSE'] = '1'
+    else:
+        os.environ['VERBOSE'] = '0'
 
 
 def is_verbose_set() -> bool:
