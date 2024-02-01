@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import pytest
+
 import os
 import sys
 from io import StringIO
@@ -12,8 +13,6 @@ from mypkg.utils import (
     set_venv_verbose,
     is_verbose_set,
     time_it,
-    read_file,
-    save_file,
 )
 
 
@@ -209,53 +208,3 @@ def test_time_it_with_verbose_none():
     # Check if the timing is correctly printed
     time_printed = float(output.split("seconds to execute")[0].split("took ")[1])
     assert time_printed >= result
-
-
-########################################################################################################################
-# Test the read_file function
-########################################################################################################################
-
-def test_read_file():
-    """Test that the read_file function correctly reads the contents of a file"""
-    path = "data/hello_world.txt"
-    hello_world = read_file(path)
-    assert hello_world == "Hello, World!"
-
-def test_read_file_raises_error_if_file_not_found():
-    """Test that the read_file function raises an error if the file is not found"""
-    path = "data/does_not_exist.txt"
-    with pytest.raises(FileNotFoundError):
-        read_file(path)
-
-# Test with temp_dir fixture
-def test_read_file_with_temp_dir(temp_dir):
-    """Test that the read_file function correctly reads the contents of a file"""
-    path = os.path.join(temp_dir, "hello_world.txt")
-    with open(path, "w") as f: # Create the file
-        f.write("Hello, World!") # Write to the file
-    hello_world = read_file(path)
-    assert hello_world == "Hello, World!"
-
-
-########################################################################################################################
-# Test the save_file function
-########################################################################################################################
-
-def test_save_file():
-    """Test that the save_file function correctly saves the contents to a file"""
-    path = "data/hello_world.txt"
-    hello_world = "Hello, World!"
-    save_file(path, hello_world)
-    with open(path, "r") as f:
-        contents = f.read()
-    assert contents == hello_world
-
-# Test with temp_dir fixture
-def test_save_file_with_temp_dir(temp_dir):
-    """Test that the save_file function correctly saves the contents to a file"""
-    path = os.path.join(temp_dir, "hello_world.txt")
-    hello_world = "Hello, World!"
-    save_file(path, hello_world)
-    with open(path, "r") as f:
-        contents = f.read()
-    assert contents == hello_world

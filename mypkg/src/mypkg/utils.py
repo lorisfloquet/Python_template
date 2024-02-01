@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
+from termcolor import colored
+
 import os
+import argparse
 from functools import wraps
 from time import perf_counter
-from termcolor import colored
-import argparse
 
 
 def set_venv_verbose() -> None:
@@ -54,30 +55,3 @@ def time_it(func):
         return result
 
     return wrapper
-
-
-@time_it
-def read_file(file_path: str) -> str:
-    """
-    Read the contents of a file and return it as a string.
-
-    Args:
-        file_path (str): The path of the file to read.
-
-    Returns:
-        str: The contents of the file.
-    """
-    with open(file_path, 'r') as f:
-        return f.read()
-    
-
-def save_file(file_path: str, contents: str) -> None:
-    """
-    Save the contents to a file.
-
-    Args:
-        file_path (str): The path of the file to save to.
-        contents (str): The contents to save to the file.
-    """
-    with open(file_path, 'w') as f:
-        f.write(contents)

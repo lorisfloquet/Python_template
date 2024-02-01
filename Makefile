@@ -1,19 +1,25 @@
-.PHONY: init test test-cov run run-v clean
+.PHONY: clean-project archive
 
-init:
-	pip install -r requirements.txt
+clean-project:
+    cd mypkg
+	make clean
+	cd ..
 
-test:
-	pytest -m "not slow"
+archive: clean-project
+    ifndef NAME
+        $(error NAME is not set. Usage: make archive NAME=<project_name>)
+    endif
+    # Temporarily replace 'mypkg' with the new project name in all files
+    find $(CURDIR)/mypkg -type f -exec sed -i 's/mypkg/$(NAME)/g' {} +
 
-test-cov:
-	pytest -m "not slow" --cov=src --cov-report=term-missing
+    # Temporarily replace 'mypkg' with the new project name in all directories
+	find $(CURDIR) -depth -type d -name '*mypkg*' | while read dir; do mv "$dir" "$(dirname "$dir")/$(basename "$dir" | sed 's/mypkg/$(NAME)/g')"; done
+    
+    # Create the zip file
+    zip -r $(NAME).zip $(CURDIR) -x "$(CURDIR)/.git/*" "$(CURDIR)/.vscode/*"
+    
+    # Revert the changes by replacing the new project name back with 'mypkg'
+    find $(CURDIR) -type f -exec sed -i 's/$(NAME)/mypkg/g' {} +
 
-run:
-	PYTHONPATH=src python3 src/mypkg/main.py
-
-run-v:
-	PYTHONPATH=src python3 src/mypkg/main.py -v
-
-clean:
-	@find . -name "__pycache__" -type d -exec rm -rf {} +
+    # Revert the changes by replacing the new project name back with 'mypkg' in all directories
+	find $(CURDIR) -depth -type d -name '*$(NAME)*' | while read dir; do mv "$dir" "$(dirname "$dir")/$(basename "$dir" | sed 's/$(NAME)/mypkg/g')"; done
