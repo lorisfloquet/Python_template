@@ -10,13 +10,13 @@ test:
 	pytest -m "not slow"
 
 test-cov:
-	pytest -m "not slow" --cov=src --cov-report=term-missing
+	pytest -m "not slow" --cov=mypkg --cov-report=term-missing
 
 run:
-	PYTHONPATH=src python3 src/mypkg/main.py
+	PYTHONPATH="." python3 mypkg/main.py
 
 run-v:
-	PYTHONPATH=src python3 src/mypkg/main.py -v
+	PYTHONPATH="." python3 mypkg/main.py -v
 
 clean:
 	@find $(CURDIR) -type d -name "__pycache__" -exec rm -rf {} +

@@ -2,7 +2,7 @@
 
 ## Configuration of the project
 
-This project uses a [`config.py`](src/mypkg/config.py) file that contains all the constants.
+This project uses a [`config.py`](mypkg/config.py) file that contains all the constants.
 
 ## Development and Testing
 
@@ -44,7 +44,7 @@ or
 .\make.bat run
 ```
 
-This will run [`src/mypkg/main.py`](src/mypkg/main.py) using Python 3.
+This will run [`mypkg/main.py`](mypkg/main.py) using Python 3.
 
 ```bash
 make run-v
@@ -106,7 +106,7 @@ or
 .\make.bat test-cov
 ```
 
-This will display how much of the [`src`](src/) directory is covered by tests (that are not slow) and list any lines of code not executed during testing.
+This will display how much of the [`mypkg`](mypkg/) directory is covered by tests (that are not slow) and list any lines of code not executed during testing.
 
 Note: This omits the files mentionned in the [`.coveragerc`](.coveragerc) file.
 
