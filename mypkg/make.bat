@@ -27,17 +27,15 @@ pytest -m "not slow"
 goto end
 
 :test_cov
-pytest -m "not slow" --cov=src --cov-report=term-missing
+pytest -m "not slow" --cov=mypkg --cov-report=term-missing
 goto end
 
 :run
-set PYTHONPATH=src
-python src/mypkg/main.py
+python mypkg/main.py
 goto end
 
 :run_v
-set PYTHONPATH=src
-python src/mypkg/main.py -v
+python mypkg/main.py -v
 goto end
 
 :clean
