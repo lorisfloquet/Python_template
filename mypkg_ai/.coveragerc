@@ -1,0 +1,5 @@
+[run]
+omit =
+    mypkg_ai/main.py
+    mypkg_ai/config.py
+    */__init__.py
